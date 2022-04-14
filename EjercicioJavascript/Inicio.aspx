@@ -13,40 +13,10 @@
         <div>
             <input type="text" name="Fecha" id="Fecha" placeholder="dd/mm/yyyy" />
             <input type="text" name="Comentarios" id="Comentarios" placeholder="Comentarios" />
-            <script type="text/javascript">
-                var idCliente = 2; //id cliente creado en el ejercicio 3 de mysql.
-
-                function saveGestion() {
-                    var fecha = $('#Fecha').val();
-                    var comentarios = $('#Comentarios').val();
-                    $.ajax({
-                        async: false,
-                        url: '/Inicio.aspx/saveGestion',
-                        type: 'JSON',
-                        contentType: 'application/json; charset=utf-8',
-                        data: '{"Fecha": "'+fecha+'", "IdCliente": '+idCliente+', "Comentarios": "'+comentarios+'"}',
-                        success: function (data) {
-                            if (data.d.Exito) {
-                                alert('Gestion creada con éxito. ' + data.d.Mensaje);
-                            } else {
-                                alert('Hubo un error en el servidor. ' + data.d.Mensaje);
-                            }
-                        },
-                        error: function (error) {
-                            alert(error);
-                        }
-                    });
-                }
-
-                function UC_exec(sql) {
-                    if (mysql.exec(sql)) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
-            </script>
+            <input type="button" value="Save Gestion" onclick="saveGestion();return false;" />
         </div>
     </form>
+
+    <script src="Inicio.js"></script>
 </body>
 </html>

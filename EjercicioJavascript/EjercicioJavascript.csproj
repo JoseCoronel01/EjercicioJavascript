@@ -108,8 +108,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="EjercicioMySql.sql" />
     <Content Include="Inicio.aspx" />
     <None Include="Scripts\jquery-3.6.0.intellisense.js" />
+    <Content Include="Inicio.js" />
     <Content Include="Scripts\jquery-3.6.0.js" />
     <Content Include="Scripts\jquery-3.6.0.min.js" />
     <Content Include="Scripts\jquery-3.6.0.slim.js" />

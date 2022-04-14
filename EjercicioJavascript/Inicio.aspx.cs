@@ -6,6 +6,7 @@ using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using MySql.Data.MySqlClient;
+using System.Configuration;
 
 namespace EjercicioJavascript
 {
@@ -24,7 +25,7 @@ namespace EjercicioJavascript
             {
                 res.Exito = false;
 
-                using (var mysql = new MySqlConnection("Server=127.0.0.1;Port=3306;Database=clientes;User Id=root;Password=123456;"))
+                using (var mysql = new MySqlConnection(ConfigurationManager.ConnectionStrings["db"].ConnectionString))
                 {
                     mysql.Open();
 
@@ -32,14 +33,14 @@ namespace EjercicioJavascript
                     {
                         cmd.Connection = mysql;
                         cmd.CommandType = System.Data.CommandType.Text;
-                        cmd.CommandText = "INSERT INTO gestiones (idcliente,fecha,res1,comentarios) " +
-                            "values (@idcliente,@fecha,@res1,@comentarios)";
+                        cmd.CommandText = "INSERT INTO gestiones (idcliente,fecha,agente,res1,comentarios) " +
+                            "values (@idcliente,@fecha,@agente,@res1,@comentarios)";
                         cmd.Parameters.AddWithValue("@idcliente", IdCliente);
                         cmd.Parameters.AddWithValue("@Fecha", DateTime.Parse(Fecha));
+                        cmd.Parameters.AddWithValue("@agente", "Henry Gonzalez");
                         cmd.Parameters.AddWithValue("@res1", "Pago agendado");
                         cmd.Parameters.AddWithValue("@comentarios", Comentarios);
                         MySqlDataReader reader = cmd.ExecuteReader();
-                        if (reader.Read() && reader != null)
                         {
                             res.Exito = true;
                             reader.Close();
@@ -55,7 +56,6 @@ namespace EjercicioJavascript
                                     cmd2.CommandText = "Delete from clientes where id = @id";
                                     cmd2.Parameters.AddWithValue("@id", IdCliente);
                                     MySqlDataReader reader2 = cmd2.ExecuteReader();
-                                    if (reader2.Read() && reader2 != null)
                                     {
                                         res.Mensaje = "Se elimino al cliente.";
                                     }
@@ -75,7 +75,11 @@ namespace EjercicioJavascript
                 res.Exito = false;
                 res.Mensaje = ex.Message.ToString();
             }
-            finally { }
+            finally 
+            {
+                if (res.Exito)
+                    res.Mensaje = "";
+            }
             return res;
         }
     }
